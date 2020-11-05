@@ -1,15 +1,19 @@
 #!/usr/bin/python
-# -*- coding: utf-8 -*-
+import math
+import sys
+import os.path
+import urllib
+import httplib
+import re
+import urllib2
+from xml.dom.minidom import parse
 
-# script to download releases from the dnbshare feed
 
 # TODO 
 # what happens if the script dies? loses connection? whatever?
 
 URL="http://www.dnbshare.com/feed"
 
-import urllib2, re, httplib, urllib, os.path, sys, math
-from xml.dom.minidom import parse
 
 fd = urllib2.urlopen(URL)
 
@@ -28,15 +32,16 @@ for link in links:
     print url
     pg = urllib2.urlopen(url).read()
 
-    payload = re.search('name="payload" value="([^"]*)', pg).group(1)
+    payload = re.search('name="dlform-payload" value="([^"]*)', pg).group(1)
 
     data = urllib.urlencode({'file': mp3[rslash:], 'payload': payload})
 
-    headers = {"Content-type": "application/x-www-form-urlencoded",'Referer': url}
+    headers = {"Content-type": "application/x-www-form-urlencoded", 'Referer': url}
 
-    conn = httplib.HTTPConnection("dnbshare.com")
+    conn = httplib.HTTPSConnection("dnbshare.com")
 
-    conn.request('POST', url.replace('http://dnbshare.com',''), data, headers)
+    conn.request('POST', url.replace(
+        'https://dnbshare.com', ''), data, headers)
     resp = conn.getresponse()
 
     mp3url = resp.getheader('Location')
