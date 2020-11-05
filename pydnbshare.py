@@ -1,5 +1,5 @@
 #!/usr/bin/python
-import math
+# -*- coding: utf-8 -*-	import math
 import sys
 import os.path
 import urllib
@@ -8,9 +8,12 @@ import re
 import urllib2
 from xml.dom.minidom import parse
 
+# script to download releases from the dnbshare feed
 
-# TODO 
+# TODO: 
 # what happens if the script dies? loses connection? whatever?
+# Docker file
+# Cron to automate daily sync
 
 URL="http://www.dnbshare.com/feed"
 
